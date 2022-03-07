@@ -20,7 +20,8 @@
  *
  */
 
-import axios from '@nextcloud/axios'
+import axios, { Method } from '@nextcloud/axios'
+import './sharing'
 
 const url = Cypress.config('baseUrl').replace(/\/index.php\/?$/g, '')
 Cypress.env('baseUrl', url)
@@ -96,6 +97,23 @@ Cypress.Commands.add('nextcloudDeleteUser', (user) => {
 })
 
 Cypress.Commands.add('uploadFile', (fileName, mimeType, target) => {
+	if (!mimeType) {
+		mimeType = 'unknown'
+		const extension = fileName.split('.').pop()
+		if (extension === 'odt') {
+			mimeType = 'application/vnd.oasis.opendocument.text'
+		}
+		if (extension === 'ods') {
+			mimeType = 'application/vnd.oasis.opendocument.spreadsheet'
+		}
+		if (extension === 'odp') {
+			mimeType = 'application/vnd.oasis.opendocument.presentation'
+		}
+		if (extension === 'odg') {
+			mimeType = 'application/vnd.oasis.opendocument.drawing'
+		}
+		cy.log(`Matched ${fileName} to ${extension} to ${mimeType}`)
+	}
 	cy.fixture(fileName, 'base64')
 		.then(Cypress.Blob.base64StringToBlob)
 		.then(async blob => {
@@ -114,6 +132,20 @@ Cypress.Commands.add('uploadFile', (fileName, mimeType, target) => {
 				})
 			})
 		})
+})
+
+Cypress.Commands.add('webdavMkcol', dirName => {
+	cy.window().then(async window => {
+		await axios.request({
+			url: `${Cypress.env('baseUrl')}/remote.php/webdav/${dirName}`,
+			method: 'MKCOL',
+			headers: {
+				requesttoken: window.OC.requestToken
+			}
+		}).then(response => {
+			cy.log(`Created folder ${dirName}`, response.status)
+		})
+	})
 })
 
 Cypress.Commands.add('createFolder', dirName => {
