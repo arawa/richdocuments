@@ -15,6 +15,9 @@
     </RedundantCondition>
   </file>
   <file src="lib/AppInfo/Application.php">
+    <InvalidArgument occurrences="1">
+      <code>registerEventListener</code>
+    </InvalidArgument>
     <MissingDependency occurrences="5">
       <code>MSExcel</code>
       <code>MSWord</code>
@@ -212,6 +215,13 @@
       <code>$this-&gt;userSession</code>
     </UndefinedThisPropertyFetch>
   </file>
+  <file src="lib/Service/WatermarkService.php">
+    <MissingDependency occurrences="3">
+      <code>$this-&gt;rootFolder</code>
+      <code>IRootFolder</code>
+      <code>IRootFolder</code>
+    </MissingDependency>
+  </file>
   <file src="lib/Template/CollaboraTemplateProvider.php">
     <InvalidReturnStatement occurrences="1"/>
     <InvalidReturnType occurrences="1">
@@ -219,7 +229,8 @@
     </InvalidReturnType>
   </file>
   <file src="lib/TemplateManager.php">
-    <MissingDependency occurrences="6">
+    <MissingDependency occurrences="7">
+      <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
       <code>$this-&gt;rootFolder</code>
