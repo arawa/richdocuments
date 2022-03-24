@@ -36,7 +36,7 @@ describe('Files default view', function() {
 
 		cy.login(owner, 'password')
 		exampleFiles.forEach((file) => {
-			cy.uploadFile(file)
+			cy.uploadFile('documents/' + file, undefined, file)
 		})
 
 
