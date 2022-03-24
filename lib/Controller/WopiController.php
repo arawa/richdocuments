@@ -167,7 +167,7 @@ class WopiController extends Controller {
 				'BaseFileName' => $file->getName(),
 				'Size' => $file->getSize(),
 				'Version' => $version,
-				'UserId' => !$wopi->isGuest() ? $wopi->getEditorUid() : $guestUserId,
+				'UserId' => !empty($wopi->getEditorUid()) ? $wopi->getEditorUid() : $guestUserId,
 				'OwnerId' => $wopi->getOwnerUid(),
 				'UserFriendlyName' => $userDisplayName,
 				'UserExtraInfo' => [],
